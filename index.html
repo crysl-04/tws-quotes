@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>TWS 语录</title>
+<style>
+:root{
+  --green:#8fd3b4; --green-d:#3f7d63; --blue:#bfe0ef; --blue-d:#3d6f89;
+  --ink:#22333c; --ink-2:#5d7484; --line:#dfeaf0; --bg:#f6fbfc; --card:#ffffff;
+  --chip:#eef7f3; --star:#e0a23c;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","PingFang SC","Microsoft YaHei",sans-serif;
+  padding-bottom:40px}
+.wrap{max-width:680px;margin:0 auto;padding:0 16px}
+header{position:sticky;top:0;z-index:20;background:linear-gradient(180deg,var(--bg) 70%,rgba(246,251,252,0));
+  padding:14px 0 8px}
+.brand{display:flex;align-items:center;gap:8px;font-size:14px;letter-spacing:.12em;color:var(--green-d);font-weight:700}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px var(--blue)}
+nav{display:flex;gap:6px;margin-top:10px}
+nav button{flex:1;border:1px solid var(--line);background:var(--card);color:var(--ink-2);
+  padding:9px 0;border-radius:11px;font-size:14px;cursor:pointer}
+nav button.on{background:var(--green);border-color:var(--green);color:#fff;font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px 20px 16px;
+  box-shadow:0 6px 22px rgba(63,125,99,.07);margin-top:14px}
+.ko{font-size:21px;line-height:1.62;font-weight:650;letter-spacing:-.01em}
+.zh{margin-top:12px;font-size:16px;line-height:1.75;color:var(--ink-2)}
+.who{margin-top:18px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.tag{background:var(--chip);color:var(--green-d);border-radius:999px;padding:4px 10px;font-size:12.5px}
+.tag.m{background:var(--blue);color:var(--blue-d);font-weight:600}
+.rowbtns{display:flex;gap:8px;margin-top:14px}
+.ghost{flex:1;border:1px solid var(--line);background:#fbfeff;color:var(--ink-2);
+  border-radius:12px;padding:10px 0;font-size:13.5px;cursor:pointer}
+.ghost:active{transform:translateY(1px)}
+.ghost.on{border-color:var(--star);color:var(--star);background:#fffaf0}
+.main{width:100%;margin-top:16px;border:0;border-radius:14px;padding:15px 0;font-size:16px;font-weight:600;
+  background:linear-gradient(90deg,var(--green),var(--blue));color:#fff;cursor:pointer}
+.detail{margin-top:14px;padding-top:14px;border-top:1px dashed var(--line);font-size:13.5px;color:var(--ink-2);display:none}
+.detail.show{display:block}
+.detail .lbl{color:var(--green-d);font-weight:600;margin-top:8px}
+.detail a{color:var(--blue-d);word-break:break-all}
+.toggle{margin-top:14px;font-size:13px;color:var(--blue-d);cursor:pointer;user-select:none}
+.filters{margin-top:14px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button{border:1px solid var(--line);background:var(--card);color:var(--ink-2);border-radius:999px;
+  padding:6px 12px;font-size:13px;cursor:pointer}
+.chips button.on{background:var(--green-d);border-color:var(--green-d);color:#fff}
+input.s{width:100%;margin-top:10px;border:1px solid var(--line);border-radius:12px;padding:11px 13px;
+  font-size:15px;background:var(--card);color:var(--ink)}
+.list{margin-top:14px}
+.item{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:14px 15px;margin-bottom:10px;cursor:pointer}
+.item .ik{font-size:15.5px;line-height:1.55;font-weight:600}
+.item .iz{margin-top:5px;font-size:13.5px;color:var(--ink-2);line-height:1.6;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.item.open .iz{-webkit-line-clamp:unset;display:block}
+.item .ih{display:none;margin-top:12px}
+.item.open .ih{display:block}
+.mini{display:flex;gap:6px;margin-top:10px}
+.mini button{border:1px solid var(--line);background:#fbfeff;border-radius:9px;padding:6px 10px;font-size:12.5px;
+  color:var(--ink-2);cursor:pointer}
+.mini button.on{border-color:var(--star);color:var(--star)}
+.count{font-size:12.5px;color:var(--ink-2);margin:12px 2px 6px}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);opacity:0;
+  background:var(--ink);color:#fff;padding:9px 18px;border-radius:999px;font-size:13.5px;transition:.2s;pointer-events:none;z-index:60}
+.toast.show{opacity:.94;transform:translateX(-50%) translateY(0)}
+@media (max-width:420px){.ko{font-size:18.5px}.zh{font-size:15px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="brand"><span class="dot"></span>TWS · 42</div>
+  <nav>
+    <button data-v="today" class="on">今日一句</button>
+    <button data-v="all">全部</button>
+    <button data-v="fav">收藏</button>
+    <button data-v="about">关于</button>
+  </nav>
+</header>
+
+<section id="v-today">
+  <div class="card" id="card"></div>
+  <button class="main" id="next">换一句</button>
+</section>
+
+<section id="v-all" hidden>
+  <div class="filters">
+    <div class="chips" id="fm"></div>
+    <div class="chips" id="ft" style="margin-top:6px"></div>
+    <input class="s" id="q" placeholder="搜韩文或中文">
+  </div>
+  <div class="count" id="cnt"></div>
+  <div class="list" id="list"></div>
+</section>
+
+<section id="v-fav" hidden>
+  <div class="list" id="flist"></div>
+</section>
+
+<section id="v-about" hidden>
+  <div class="card">
+    <div class="ko" style="font-size:17px">한 문장도 손대지 않았습니다.</div>
+    <div class="zh">这里的 50 句韩文是 Weverse Magazine《TWS 데뷔 인터뷰》官方韩文版的原文，逐字摘录、没有回译或改写；中文是我按韩文重译的，和官方中文版的措辞会不一样。每句话都能点开看到提问的语境和原页链接。</div>
+    <div class="lbl" style="color:var(--green-d);font-weight:600;margin-top:14px;font-size:13.5px">成员原页（韩文版）</div>
+    <div class="chips" id="links" style="margin-top:8px"></div>
+    <div class="zh" style="margin-top:14px;font-size:13px">收藏存在这台设备的浏览器里，不会同步，也不会上报到任何地方。</div>
+  </div>
+</section>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const Q = [{"id":1,"member":"SHINYU","ko_name":"신유","cn":"申惟","tagline":"队长的温柔是\"先看见已有的幸福\"","label":"幸福不在远处","ctx":"","ko":"사실 행복은 멀리 있지 않고 주변에 있어요. 행복을 찾는 과정도 행복하고, 저를 행복하게 만드는 걸 찾았을 때의 행복도 큰 것 같습니다.","zh":"其实幸福并不遥远，它就在身边。寻找幸福的过程本身也是幸福的，而当我找到能让我幸福的东西时，那份幸福感会格外大。","note":"","tags":["生活","心态"],"url":"https://magazine.weverse.io/article/view/1001?lang=ko"},{"id":2,"member":"SHINYU","ko_name":"신유","cn":"申惟","tagline":"队长的温柔是\"先看见已有的幸福\"","label":"\"难道我不幸福吗\"","ctx":"","ko":"원래 좌우명이 '행복하자'였어요. '나는 행복하지 않은가?' 이런 고민을 해봤는데 그렇지 않더라고요. 이미 행복한데 그 행복을 발견하지 못하는 게 문제였어요.","zh":"我原本的座右铭是\"要幸福\"。我也想过\"难道我不幸福吗\"，其实不是。我早就已经很幸福了，问题只是没有发现它。","note":"","tags":["生活","心态"],"url":"https://magazine.weverse.io/article/view/1001?lang=ko"},{"id":3,"member":"SHINYU","ko_name":"신유","cn":"申惟","tagline":"队长的温柔是\"先看见已有的幸福\"","label":"写给第一次见面的所有人","ctx":"他出道时公开的第一封亲笔留言，被写在手写签名上","ko":"많이 힘들어도 괜찮아요. 모두 다 언제 그랬냐는 듯 지나갈 거예요. 행복했으면 좋겠어요.","zh":"就算很累也没关系。一切都会像什么都没发生过一样过去。希望大家幸福。","note":"","tags":["心态","给粉丝"],"url":"https://magazine.weverse.io/article/view/1001?lang=ko"},{"id":4,"member":"SHINYU","ko_name":"신유","cn":"申惟","tagline":"队长的温柔是\"先看见已有的幸福\"","label":"写给第一次见面的所有人","ctx":"他出道时公开的第一封亲笔留言，被写在手写签名上","ko":"나태주 시인의 '행복'처럼 마음이 따뜻해지는 시를 좋아해요. 저도 위로받을 때의 감정을 알고 있기 때문에, 누군가는 제 위로에 조금이나마 마음이 따뜻해지면 좋겠다고 생각해서 그런 문구를 적어보았습니다.","zh":"我喜欢像诗人罗泰柱《幸福》那样让人心里变暖的诗。因为我知道被安慰时是什么感觉，所以想着\"如果有人因为我的话心里稍微暖一点就好了\"，才写下了那句话。","note":"","tags":["生活","给粉丝"],"url":"https://magazine.weverse.io/article/view/1001?lang=ko"},{"id":5,"member":"SHINYU","ko_name":"신유","cn":"申惟","tagline":"队长的温柔是\"先看见已有的幸福\"","label":"难过的时候怎么想","ctx":"讲首尔练习生生活，连地铁线路图都没有就出门","ko":"힘들 때마다 '이것마저 긍정적으로 생각하자, 그러면 다 괜찮아질 거야.' 이렇게 생각하려 했습니다. 하루하루, 매일매일 한계를 뛰어넘었다고 생각이 듭니다.","zh":"每次觉得辛苦的时候，我都试着这样想：\"连这件事也往好处看吧，那样一切都会好起来。\" 我觉得自己每一天都在越过一条极限线。","note":"","tags":["心态"],"url":"https://magazine.weverse.io/article/view/1001?lang=ko"},{"id":6,"member":"SHINYU","ko_name":"신유","cn":"申惟","tagline":"队长的温柔是\"先看见已有的幸福\"","label":"没有胜负欲，但有成就欲","ctx":"","ko":"승부욕은 없지만 성취욕은 있는 편이라 스스로 점점 나아지는 모습을 중요하게 생각했어요.","zh":"我没有什么胜负欲，但成就欲还在，所以我最看重的是自己是不是一点点在变好。","note":"","tags":["学习","做事"],"url":"https://magazine.weverse.io/article/view/1001?lang=ko"},{"id":7,"member":"SHINYU","ko_name":"신유","cn":"申惟","tagline":"队长的温柔是\"先看见已有的幸福\"","label":"梦想要大，目标可以很小","ctx":"","ko":"아무래도 꿈은 좀 크게 크게 가져야 되다 보니까.","zh":"梦想总归是要往大了定。","note":"","tags":["心态"],"url":"https://magazine.weverse.io/article/view/1001?lang=ko"},{"id":8,"member":"SHINYU","ko_name":"신유","cn":"申惟","tagline":"队长的温柔是\"先看见已有的幸福\"","label":"梦想要大，目标可以很小","ctx":"","ko":"그렇지만 마지막까지 멀리 바라본다면, 그냥 저희 멤버 모두 건강하고 행복해지는 게 저의 목표입니다.","zh":"但如果一直看到最远处，我的目标其实就是我们成员所有人都健康、幸福。","note":"","tags":["生活"],"url":"https://magazine.weverse.io/article/view/1001?lang=ko"},{"id":9,"member":"SHINYU","ko_name":"신유","cn":"申惟","tagline":"队长的温柔是\"先看见已有的幸福\"","label":"关于身边的人","ctx":"","ko":"가족분들이나 저를 응원해준 친구들 덕분에 지쳤던 마음이 회복됐어요.","zh":"多亏有家人和为我加油的朋友，我疲惫的心才恢复过来。","note":"","tags":["生活"],"url":"https://magazine.weverse.io/article/view/1001?lang=ko"},{"id":10,"member":"DOHOON","ko_name":"도훈","cn":"道勋","tagline":"\"撑住的人赢\"，还有把反馈真的改掉","label":"月末评价拿第一，他说原因不是自己强","ctx":"","ko":"제가 남들보다 실력이 뛰어나거나 잘했다기보다는 피드백 주신 걸 잘 고쳐서 성장하는 모습을 보고 점수를 주신 게 아닌가 싶습니다.","zh":"与其说是我实力比别人好、做得比别人棒，不如说是他们看到了我把给出的反馈改掉、正在成长的样子，所以才给了我高分。","note":"","tags":["学习"],"url":"https://magazine.weverse.io/article/view/998?lang=ko"},{"id":11,"member":"DOHOON","ko_name":"도훈","cn":"道勋","tagline":"\"撑住的人赢\"，还有把反馈真的改掉","label":"累这件事会自己变淡","ctx":"","ko":"그래도 시간이 지나면 힘들다는 생각이 점점 옅어지면서 다시 괜찮아져서 그냥 잘 버텨냈던 것 같아요.","zh":"好在时间一过，\"好累\"这个念头会慢慢变淡，又会重新没事，所以我大概就是好好地撑过来了。","note":"","tags":["心态"],"url":"https://magazine.weverse.io/article/view/998?lang=ko"},{"id":12,"member":"DOHOON","ko_name":"도훈","cn":"道勋","tagline":"\"撑住的人赢\"，还有把反馈真的改掉","label":"SEVENTEEN 前辈反复对他们说的一句话","ctx":"转述","ko":"세븐틴 선배님들이 저희가 연습하고 있을 때도 자주 오셨는데 \"연습생 때는 열심히 하고 버티는 자가 이긴다.\"고 많이 얘기해주셨고.","zh":"SEVENTEEN 前辈们我们练习时也常过来，他们说得最多的一句是：\"练习生时期，努力并且撑得住的人才赢。\"","note":"","tags":["学习","做事"],"url":"https://magazine.weverse.io/article/view/998?lang=ko"},{"id":13,"member":"DOHOON","ko_name":"도훈","cn":"道勋","tagline":"\"撑住的人赢\"，还有把反馈真的改掉","label":"上台前全队一起想通的事","ctx":"","ko":"어차피 해야 될 거라면 즐겁게 하면 더 잘될 거라는 거였어요.","zh":"反正都是必须要做的事，开心地做反而会做得更好。","note":"","tags":["做事"],"url":"https://magazine.weverse.io/article/view/998?lang=ko"},{"id":14,"member":"DOHOON","ko_name":"도훈","cn":"道勋","tagline":"\"撑住的人赢\"，还有把反馈真的改掉","label":"一天两练的日子，留下了什么","ctx":"早上体能、下午力量、晚上编舞","ko":"힘들어도 저희를 위한 일들이라 체력뿐만 아니라 앞으로 살아가는 마인드에도 도움이 많이 됐어요. '우린 쉽게 지지 않는다! 뭐든 다 할 수 있다!'라고 생각하게 되더라고요.","zh":"虽然很累，但那些都是为了我们自己，不只练了体力，对以后怎么过日子的心态帮助也很大。我慢慢开始想：\"我们不会轻易输！什么都做得到。\"","note":"","tags":["做事","心态"],"url":"https://magazine.weverse.io/article/view/998?lang=ko"},{"id":15,"member":"DOHOON","ko_name":"도훈","cn":"道勋","tagline":"\"撑住的人赢\"，还有把反馈真的改掉","label":"想成为什么样的人","ctx":"","ko":"누군가 존경할 수 있는 멋있는 사람이 되고 싶다고 생각하는데 아직 많이 부족하지 않나 싶어요.","zh":"我想成为一个能被人尊敬的、帅气的人，但总觉得自己还差得远。","note":"","tags":["生活"],"url":"https://magazine.weverse.io/article/view/998?lang=ko"},{"id":16,"member":"JIHOON","ko_name":"지훈","cn":"志训","tagline":"把\"不后悔\"当作标准，把目标拆近","label":"父母在他要去选秀时说的话","ctx":"他说做每件事都会想起","ko":"오히려 지지해주셨어요. \"그래, 네가 해본다면 한 번 해봐.\" 하시면서, \"하지만 꼭 최선을 다 해봐. 네가 후회하지 않을 만큼.\"이라고 해주셨거든요. 저는 모든 일을 할 때 그 얘기를 꼭 기억하는 것 같아요.","zh":"他们反而很支持我，说：\"好吧，你想试就去试试。\"又说：\"但一定要尽全力，做到不让自己后悔的程度。\"我做任何事情的时候，都会记得这句话。","note":"","tags":["学习","做事"],"url":"https://magazine.weverse.io/article/view/1004?lang=ko"},{"id":17,"member":"JIHOON","ko_name":"지훈","cn":"志训","tagline":"把\"不后悔\"当作标准，把目标拆近","label":"卡在瓶颈、实力一直不涨的时候","ctx":"舞蹈是一级一级上的，涨完就是一条平线","ko":"그럴 때마다 선생님들이 \"너를 믿어야 돼. 아니면 너를 가르치고, 너를 믿는 나를 믿어봐.\"라고 하셔서, \"믿겠습니다!\" 했죠.","zh":"每当那时，老师们就说：\"你要相信自己。不然，你先相信教你、相信你的我。\"我就回答：\"我信！\"","note":"","tags":["学习","心态"],"url":"https://magazine.weverse.io/article/view/1004?lang=ko"},{"id":18,"member":"JIHOON","ko_name":"지훈","cn":"志训","tagline":"把\"不后悔\"当作标准，把目标拆近","label":"一个很实用的学习方法：别把目标定太远","ctx":"","ko":"저는 목표치를 길게 잡으면 조급해져서 오히려 '월말 평가 잘 보기'처럼 눈앞에 있는 걸 잘 해내자고 생각했어요.","zh":"我把目标定得很长就会变得着急，所以我改成\"把眼前这件事做好\"，比如\"这次月末评价好好过\"。","note":"","tags":["学习"],"url":"https://magazine.weverse.io/article/view/1004?lang=ko"},{"id":19,"member":"JIHOON","ko_name":"지훈","cn":"志训","tagline":"把\"不后悔\"当作标准，把目标拆近","label":"不是只有我努力就行","ctx":"","ko":"사실 제 노력만 있다고 되는 건 아니거든요. 정말 복인 게, 힘들 때마다 주변에 감사한 분들이 많았어요. 그래서 제 원동력이 주변 사람들, 스태프분들인 것 같아요.","zh":"其实光靠我一个人的努力是不成的。我真的很幸运，每次难受时身边都有很多值得感谢的人。所以我的原动力就是身边的人和工作人员们。","note":"","tags":["心态","生活"],"url":"https://magazine.weverse.io/article/view/1004?lang=ko"},{"id":20,"member":"JIHOON","ko_name":"지훈","cn":"志训","tagline":"把\"不后悔\"当作标准，把目标拆近","label":"他的梦想是\"积极影响\"","ctx":"","ko":"저는 연습할 때도 비타민 같은 존재가 되려고 노력하고 있어요. 저는 긍정적인 영향을 주는 사람이 되는 게 꿈이거든요.","zh":"连练习的时候，我都在努力让自己成为像维生素一样的存在。我的梦想是做一个能给人积极影响的人。","note":"","tags":["生活","做事"],"url":"https://magazine.weverse.io/article/view/1004?lang=ko"},{"id":21,"member":"JIHOON","ko_name":"지훈","cn":"志训","tagline":"把\"不后悔\"当作标准，把目标拆近","label":"想对粉丝说的话","ctx":"","ko":"매번 똑같은 일상이 반복되며 지치는 분들이 많잖아요. 저로 인해 조금이라도 하루가 행복해진다면 너무 영광이고 감사하겠다는 생각을 해서요. 그런 존재가 될 수 있도록 노력하려고 결심했습니다.","zh":"每天重复着一样的生活，很多人会累。如果能因为我，让谁的一天稍微幸福一点，我会觉得非常光荣、非常感激。所以我下定决心，要努力成为那样的存在。","note":"","tags":["给粉丝"],"url":"https://magazine.weverse.io/article/view/1004?lang=ko"},{"id":22,"member":"JIHOON","ko_name":"지훈","cn":"志训","tagline":"把\"不后悔\"当作标准，把目标拆近","label":"他自己定义的\"一次小小的叛逆\"","ctx":"中学三到高一，练完不过瘾，又自己订了外部练习室加练一次","ko":"큰 용기를 냈던 거라서(웃음) 굉장히 좋았습니다. \"이건 꼭 내가 오늘 뿌시고 간다.\" 이러면서 연습실을 나왔거든요.","zh":"因为我鼓了很大的勇气，所以特别痛快。一边想着\"今天我一定要把它做到位再走\"，一边走出了练习室。","note":"","tags":["做事"],"url":"https://magazine.weverse.io/article/view/1004?lang=ko"},{"id":23,"member":"HANJIN","ko_name":"한진","cn":"韩振","tagline":"\"2 秒规则\"和一句自我对话","label":"他不会放弃的理由","ctx":"这句是他在出道 Prologue 视频里旁白的原句，访谈里他讲是怎么定下来的","ko":"\"나는 포기하지 않을 것이다. 내가 기다렸던 미래의 나를.\"","zh":"我不会放弃。为了那个我一直在等待的、未来的自己。","note":"","tags":["心态","做事"],"url":"https://magazine.weverse.io/article/view/1006?lang=ko"},{"id":24,"member":"HANJIN","ko_name":"한진","cn":"韩振","tagline":"\"2 秒规则\"和一句自我对话","label":"他不会放弃的理由","ctx":"这句是他在出道 Prologue 视频里旁白的原句，访谈里他讲是怎么定下来的","ko":"꾸준히, 열심히 성장하는 사람이 되고 싶어요.","zh":"我想成为一个持续地、认真地成长的人。","note":"","tags":["学习","做事"],"url":"https://magazine.weverse.io/article/view/1006?lang=ko"},{"id":25,"member":"HANJIN","ko_name":"한진","cn":"韩振","tagline":"\"2 秒规则\"和一句自我对话","label":"累的时候对自己说什么","ctx":"","ko":"제가 여기까지 올 수 있었던 건 진짜 주변 사람들 덕분이에요. 가족들, 친구들, 멤버들, 회사, 모두가 저한테 항상 \"열심히 하면 돼요. 할 수 있어요.\"라고 말해줬어요. 그래서 저도 힘들 때 저한테 \"한진아, 포기하지 마. 열심히, 더 열심히.\"라고 말해요. 그러면, 할 수 있어요.","zh":"我能走到这里，真的是托身边人的福。家人、朋友、成员们、公司，所有人都一直对我说\"努力就行，你做得到。\"所以累的时候，我也会对自己说：\"韩振，别放弃。努力，再努力一点。\"然后，就能做到了。","note":"","tags":["心态"],"url":"https://magazine.weverse.io/article/view/1006?lang=ko"},{"id":26,"member":"HANJIN","ko_name":"한진","cn":"韩振","tagline":"\"2 秒规则\"和一句自我对话","label":"2 秒规则","ctx":"面对\"不知道怎么改反馈\"的难受","ko":"그런데 딱 2초가 지나면 이런 생각은 그만하려고 해요. 계속 생각하면 마음이 아프고 시간 낭비예요. 진짜 열심히 해서 부족한 부분을 빨리 고치는 게 중요해요.","zh":"但整整 2 秒之后我就不让这个念头继续了。一直想下去只会心里难受，也是浪费时间。真正去努力、把不足的地方快点改掉才重要。","note":"","tags":["心态","做事"],"url":"https://magazine.weverse.io/article/view/1006?lang=ko"},{"id":27,"member":"HANJIN","ko_name":"한진","cn":"韩振","tagline":"\"2 秒规则\"和一句自我对话","label":"他练得最狠的两件事：基本功 + 记下反馈","ctx":"初到韩国时韩语不通，靠这两条追上进度","ko":"첫 번째는 기본기. 저한테 진짜 엄청 중요해요. 많이 연습해야 돼요. 그리고 두 번째는 멤버들한테 배운 방법이에요. 매일 레슨하고 멤버들이랑 같이 얘기할 때 피드백을 받았는데 항상 기억이 잘 안 났어요. 그래서 피드백은 매일 핸드폰에 메모하고 시간이 될 때마다 보고 리마인드해요.","zh":"第一是基本功，这对我来说极其重要，要练很多。第二是我从成员那里学来的方法。每天上课、和成员讨论时都会收到反馈，但我总记不住。所以我把反馈每天存在手机备忘录里，一有空就看、就提醒自己。","note":"","tags":["学习"],"url":"https://magazine.weverse.io/article/view/1006?lang=ko"},{"id":28,"member":"HANJIN","ko_name":"한진","cn":"韩振","tagline":"\"2 秒规则\"和一句自我对话","label":"被成员安慰之后","ctx":"","ko":"그래도 힘들 때 혼자가 아니어서 괜찮았어요. 멤버들이 항상 \"괜찮아요. 지금 잘하고 있어요. 걱정하지 마요.\"라고 말해줘서 열심히 할 수 있었고 자신감도 많이 올랐어요.","zh":"不过难受的时候我不是一个人，所以还好。成员们总是说\"没事的，你现在做得很好，别担心\"，我因此能继续努力，自信心也涨了很多。","note":"","tags":["心态","生活"],"url":"https://magazine.weverse.io/article/view/1006?lang=ko"},{"id":29,"member":"HANJIN","ko_name":"한진","cn":"韩振","tagline":"\"2 秒规则\"和一句自我对话","label":"他最喜欢的那句歌词，意思是他想要的态度","ctx":"","ko":"'해야 하는 일은 다 하고, 걱정은 다 버려요.' 이런 의미 같아서 진짜 멋있다고 생각해요.","zh":"它的意思是\"该做的事全部做完，然后把担心全部丢掉\"，我觉得特别帅。","note":"","tags":["心态"],"url":"https://magazine.weverse.io/article/view/1006?lang=ko"},{"id":30,"member":"HANJIN","ko_name":"한진","cn":"韩振","tagline":"\"2 秒规则\"和一句自我对话","label":"他最喜欢的那句歌词，意思是他想要的态度","ctx":"","ko":"새로운 걸 배우는 과정이라고 생각하면 즐거워요.","zh":"把它当成在学新东西的过程，就很开心。","note":"","tags":["学习","心态"],"url":"https://magazine.weverse.io/article/view/1006?lang=ko"},{"id":31,"member":"YOUNGJAE","ko_name":"영재","cn":"永才","tagline":"\"马虎\"和\"放弃\"，还有现在的座右铭","label":"他中学毕业纪念册上写的话","ctx":"韩语是个谐音梗：포기 的 포 与\"数白菜的颗\"同音","ko":"세상에서 가장 해로운 벌레는 대충이며, 포기는 배추를 셀 때나 하는 말이다.","zh":"世上最害人的虫子是\"马虎\"；而\"颗\"这种话，是数白菜的时候才说的。","note":"","tags":["学习"],"url":"https://magazine.weverse.io/article/view/1008?lang=ko"},{"id":32,"member":"YOUNGJAE","ko_name":"영재","cn":"永才","tagline":"\"马虎\"和\"放弃\"，还有现在的座右铭","label":"他中学毕业纪念册上写的话","ctx":"韩语是个谐音梗：포기 的 포 与\"数白菜的颗\"同音","ko":"지금 그걸 보면 쑥스럽기도 한데, 그 말은 정말 제 인생에 도움이 되는 말이었어요. 한 번 포기하면 계속 포기하게 되잖아요.","zh":"现在看会有点难为情，但这句话真的对我的人生很有帮助。因为一旦放弃一次，就会一直放弃下去。","note":"","tags":["学习","心态"],"url":"https://magazine.weverse.io/article/view/1008?lang=ko"},{"id":33,"member":"YOUNGJAE","ko_name":"영재","cn":"永才","tagline":"\"马虎\"和\"放弃\"，还有现在的座右铭","label":"他现在的座右铭","ctx":"","ko":"'중요한 건 꺾여도 그냥 나를 믿고 하는 마음'입니다. 지치고 힘들 때마다 그 말을 생각하면 '아, 그냥 하자.' 하고 앞으로 나아가게 되더라고요.","zh":"现在是\"哪怕被折弯，也只是照着自己相信的路走下去的那颗心\"。每次疲惫难受时想起这句话，我就会\"啊，那就直接做吧\"，然后往前走。","note":"","tags":["心态"],"url":"https://magazine.weverse.io/article/view/1008?lang=ko"},{"id":34,"member":"YOUNGJAE","ko_name":"영재","cn":"永才","tagline":"\"马虎\"和\"放弃\"，还有现在的座右铭","label":"很小就当练习生，他说自己\"就是享受\"","ctx":"","ko":"당연히 어려운 시기가 있었어요. 어린 나이에 연습생을 시작했으니까요. 그런데 그냥 즐겼어요. 저는 긍정적인 생각이 머리 어딘가에 탑재된 것 같아요.","zh":"当然有过很难的阶段，毕竟很小就开始当练习生了。但我就是去享受它。我感觉我脑子里大概是出厂就装了\"往好处想\"这个功能。","note":"","tags":["心态"],"url":"https://magazine.weverse.io/article/view/1008?lang=ko"},{"id":35,"member":"YOUNGJAE","ko_name":"영재","cn":"永才","tagline":"\"马虎\"和\"放弃\"，还有现在的座右铭","label":"一个月一次的评价，他怎么熬","ctx":"","ko":"'다음 달에 더 열심히 해야지. 이게 부족하니까 다음엔 더 채워야지.' 생각하면서 또 연습했어요. 지금 돌이켜보면, 스스로 생각했던 것보다 제가 더 강한 사람이라고 느꼈어요.","zh":"我会想\"下个月要更努力，这里不够，下次要填得更满\"，然后再练。现在回头看我觉得自己比想象中更坚强。","note":"","tags":["学习","心态"],"url":"https://magazine.weverse.io/article/view/1008?lang=ko"},{"id":36,"member":"YOUNGJAE","ko_name":"영재","cn":"永才","tagline":"\"马虎\"和\"放弃\"，还有现在的座右铭","label":"自信从哪来","ctx":"","ko":"평소에는 표현이 서투른 편이에요. 그렇지만 자신감은 연습을 많이 했을 때 나와요.","zh":"我平时不太会表达。但自信是在练得足够多的时候才会出来的东西。","note":"","tags":["做事","学习"],"url":"https://magazine.weverse.io/article/view/1008?lang=ko"},{"id":37,"member":"YOUNGJAE","ko_name":"영재","cn":"永才","tagline":"\"马虎\"和\"放弃\"，还有现在的座右铭","label":"关于完美主义","ctx":"","ko":"완벽의 끝은 없지만 그저 완벽에 가까워지기 위해서 연습을 한다고 생각해요.","zh":"完美没有尽头，我只是觉得练习就是为了离完美更近一点。","note":"","tags":["做事"],"url":"https://magazine.weverse.io/article/view/1008?lang=ko"},{"id":38,"member":"YOUNGJAE","ko_name":"영재","cn":"永才","tagline":"\"马虎\"和\"放弃\"，还有现在的座右铭","label":"关于完美主义","ctx":"","ko":"춤도 기본기가 워낙 중요한데 기본기의 끝은 없더라고요.","zh":"舞蹈也一样，基本功太重要了，而基本功是没有尽头的。","note":"","tags":["学习"],"url":"https://magazine.weverse.io/article/view/1008?lang=ko"},{"id":39,"member":"YOUNGJAE","ko_name":"영재","cn":"永才","tagline":"\"马虎\"和\"放弃\"，还有现在的座右铭","label":"\"担心自己会不会让粉丝失望\"的时候","ctx":"","ko":"그럴 때마다 '내가 더 잘하고 싶어서 이런 생각을 하나 보다.'라고 생각하고 그 고민을 해결하기 위한 실천을 하려고 해요. … 고민이 너무 많으면 안 되겠지만, 막을 뚫고 나가기 위해 꼭 거쳐야 하는 과정이라고 생각해요.","zh":"每当那时我就想：\"大概是因为我想做得更好，才会有这种念头吧。\"然后我会去做能解决这个烦恼的具体事情。烦恼太多固然不好，但我觉得这是冲破那堵墙必须经过的过程。","note":"","tags":["心态"],"url":"https://magazine.weverse.io/article/view/1008?lang=ko"},{"id":40,"member":"YOUNGJAE","ko_name":"영재","cn":"永才","tagline":"\"马虎\"和\"放弃\"，还有现在的座右铭","label":"他写在毕业纪念册上的梦想，至今没改","ctx":"","ko":"나의 꿈은 세상 모든 이들에게 좋은 영향을 주고 인정을 받는 아티스트, 연예인이 되는 것이다.","zh":"我的梦想是成为给世上所有人好的影响、并被认可的艺人。","note":"","tags":["生活","做事"],"url":"https://magazine.weverse.io/article/view/1008?lang=ko"},{"id":41,"member":"YOUNGJAE","ko_name":"영재","cn":"永才","tagline":"\"马虎\"和\"放弃\"，还有现在的座右铭","label":"他写在毕业纪念册上的梦想，至今没改","ctx":"","ko":"그리고 저를 믿고 싶어요. 그래야 앞으로 더 열심히 잘할 수 있으니까.","zh":"而且我想相信自己。因为只有这样，以后才能更努力、做得更好。","note":"","tags":["心态"],"url":"https://magazine.weverse.io/article/view/1008?lang=ko"},{"id":42,"member":"KYUNGMIN","ko_name":"경민","cn":"炅潣","tagline":"唯一的方法：练、重复","label":"一个人对着视频学整支舞的日子","ctx":"","ko":"그때는 이게 쉬운지, 어려운지, 이런 생각은 하나도 안 들었고요. 그냥 제가 좋아서 시작한 거예요. 정말 하고 싶을 때마다 계속 했어요.","zh":"那时候我根本没想过这是容易还是难。就是因为喜欢才开始的。真的想做的时候，就一直做下去。","note":"","tags":["心态","生活"],"url":"https://magazine.weverse.io/article/view/1010?lang=ko"},{"id":43,"member":"KYUNGMIN","ko_name":"경민","cn":"炅潣","tagline":"唯一的方法：练、重复","label":"给自己的死线：今天必须啃下一整首","ctx":"","ko":"'완곡을 오늘 안에 무조건 딴다.'는 생각으로 해보다가, 점점 시간이 줄어서 나중에는 1시간 만에도 외울 수 있게 됐어요.","zh":"我一直抱着\"今天之内一定要拿下整首歌\"的想法去练，时间越用越短，后来 1 小时也能记完了。","note":"","tags":["学习"],"url":"https://magazine.weverse.io/article/view/1010?lang=ko"},{"id":44,"member":"KYUNGMIN","ko_name":"경민","cn":"炅潣","tagline":"唯一的方法：练、重复","label":"被问\"到底怎么练出来的\"","ctx":"","ko":"사실 방법은 하나밖에 없어요. 연습, 반복.","zh":"其实办法只有一个：练，重复。","note":"","tags":["做事","学习"],"url":"https://magazine.weverse.io/article/view/1010?lang=ko"},{"id":45,"member":"KYUNGMIN","ko_name":"경민","cn":"炅潣","tagline":"唯一的方法：练、重复","label":"进步这件事只有自己知道","ctx":"","ko":"처음에 할 때는 '이걸 잘할 수 있을까?' 싶고 너무 힘든데, 느는 건 정말 자기 자신이 아는 것 같아요. … 선생님들이 주시는 피드백을 듣고 고치는 것뿐만 아니라 스스로도 늘었다고 느낄 때 진짜 발전할 수 있어요.","zh":"一开始会想\"这我真能做好吗\"，特别难受，但有没有变强，真的是自己最清楚。不只是听老师的反馈去改，自己也能感觉到\"我进步了\"的时候，才是真的在进步。","note":"","tags":["学习"],"url":"https://magazine.weverse.io/article/view/1010?lang=ko"},{"id":46,"member":"KYUNGMIN","ko_name":"경민","cn":"炅潣","tagline":"唯一的方法：练、重复","label":"那句\"对我们自己很有信心\"从哪来","ctx":"","ko":"그만큼 연습을 했기에 가능한 것 같아요. 연습을 하면서 자연스럽게 서로에 대해, 자신에 대해 알게 되면서 잘할 수 있겠다는 확신이 생겼어요.","zh":"那是因为练到了那个份上才说得出口。在练习里很自然地了解了彼此、也了解了自己，才有了\"我们能做好\"的确信。","note":"","tags":["做事","心态"],"url":"https://magazine.weverse.io/article/view/1010?lang=ko"},{"id":47,"member":"KYUNGMIN","ko_name":"경민","cn":"炅潣","tagline":"唯一的方法：练、重复","label":"为什么连当练习生都不觉得苦","ctx":"","ko":"저는 연습생 생활이 힘들다는 생각은 별로 안 했던 것 같아요. 왜냐하면 연습생도 제게는 하나의 목표였다 보니, 그걸 이뤘다는 것 자체로 행복했거든요.","zh":"我好像没怎么觉得练习生生活苦。因为练习生对我来说本身也是一个目标，光是实现了它这件事，就已经很幸福了。","note":"","tags":["心态"],"url":"https://magazine.weverse.io/article/view/1010?lang=ko"},{"id":48,"member":"KYUNGMIN","ko_name":"경민","cn":"炅潣","tagline":"唯一的方法：练、重复","label":"他想给粉丝的东西","ctx":"","ko":"제가 이 일을 즐기고, 더 잘하는 모습을 보여드리면 그게 팬분들의 자부심이 되지 않을까 생각합니다.","zh":"如果我享受这件事、并且表现得更好，那大概也会成为粉丝们的自豪吧。","note":"","tags":["给粉丝"],"url":"https://magazine.weverse.io/article/view/1010?lang=ko"},{"id":49,"member":"KYUNGMIN","ko_name":"경민","cn":"炅潣","tagline":"唯一的方法：练、重复","label":"他想给粉丝的东西","ctx":"","ko":"앞으로 저희와 팬분들이 함께 하나같이 행복할 수 있다면 좋겠습니다.","zh":"希望以后我们和粉丝能在一起，人人都幸福。","note":"","tags":["给粉丝"],"url":"https://magazine.weverse.io/article/view/1010?lang=ko"},{"id":50,"member":"KYUNGMIN","ko_name":"경민","cn":"炅潣","tagline":"唯一的方法：练、重复","label":"队内自创的沟通机制\"모닥불（篝火）\"的规矩","ctx":"一周一次，练习结束后谈委屈和意见","ko":"'그 시간에 말한 건 그때 끝내기.'","zh":"那个时间里说过的话，就在那个时间里结束。","note":"","tags":["生活"],"url":"https://magazine.weverse.io/article/view/1010?lang=ko"}];
+const M = [{"en": "SHINYU", "ko": "신유", "cn": "申惟"}, {"en": "DOHOON", "ko": "도훈", "cn": "道勋"}, {"en": "YOUNGJAE", "ko": "영재", "cn": "永才"}, {"en": "HANJIN", "ko": "한진", "cn": "韩振"}, {"en": "JIHOON", "ko": "지훈", "cn": "志训"}, {"en": "KYUNGMIN", "ko": "경민", "cn": "炅潣"}];
+const TAGS = ['生活','学习','做事','心态','给粉丝'];
+let fav = [];
+try { fav = JSON.parse(localStorage.getItem('tws-fav') || '[]'); } catch(e) { fav = []; }
+let view = 'today', cur = null, selM = '', selT = '', kw = '';
+
+const CN = {}, KO = {};
+M.forEach(m => { CN[m.en] = m.cn; KO[m.en] = m.ko; });
+const order = {}; M.forEach((m,i) => order[m.en] = i);
+
+function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+function save(){ try { localStorage.setItem('tws-fav', JSON.stringify(fav)); } catch(e){} }
+function toast(t){ const e = document.getElementById('toast'); e.textContent = t; e.classList.add('show');
+  clearTimeout(e._t); e._t = setTimeout(() => e.classList.remove('show'), 1400); }
+
+function daySeed(){ const d = new Date(); return d.getFullYear()*372 + (d.getMonth()+1)*31 + d.getDate(); }
+function pickToday(){ return Q[daySeed() % Q.length]; }
+function pickRandom(){ let x, n = 0; do { x = Q[Math.floor(Math.random()*Q.length)]; n++; }
+  while (cur && x.id === cur.id && n < 30); return x; }
+
+function cardHTML(q){
+  const st = fav.includes(q.id);
+  return '<div class="ko">' + esc(q.ko) + '</div>'
+   + '<div class="zh">' + esc(q.zh) + '</div>'
+   + '<div class="who"><span class="tag m">' + KO[q.member] + ' · ' + q.member + '</span>'
+   + q.tags.map(t => '<span class="tag">' + t + '</span>').join('') + '</div>'
+   + '<div class="mini"><button data-a="fav" class="' + (st ? 'on' : '') + '">' + (st ? '★ 已收藏' : '☆ 收藏') + '</button>'
+   + '<button data-a="ck">复制韩文</button><button data-a="cz">复制中文</button><button data-a="cb">复制 韩+中</button></div>'
+   + '<div class="toggle" data-a="more">语境与出处 ＋</div>'
+   + '<div class="detail">'
+   + '<div class="lbl">这句话的小标题</div>' + esc(q.label)
+   + (q.ctx ? '<div class="lbl">语境</div>' + esc(q.ctx) : '')
+   + '<div class="lbl">他实际说的一段（完整版）</div>' + esc(q.ko)
+   + '<div class="lbl">中文</div>' + esc(q.zh)
+   + (q.note ? '<div class="lbl">补一句</div>' + esc(q.note) : '')
+   + '<div class="lbl">出处</div><a href="' + q.url + '" target="_blank" rel="noopener">Weverse Magazine · ' + KO[q.member] + ' 편 (' + q.member + ')</a>'
+   + '<div style="margin-top:6px">《TWS 데뷔 인터뷰》系列，2024 年 1–2 月</div>'
+   + '</div>';
+}
+
+function renderCard(q){ cur = q; document.getElementById('card').innerHTML = cardHTML(q); }
+
+function match(q){
+  if (selM && q.member !== selM) return false;
+  if (selT && !q.tags.includes(selT)) return false;
+  if (kw) { const k = kw.toLowerCase();
+    if (!(q.ko.toLowerCase().includes(k) || q.zh.toLowerCase().includes(k) || q.label.toLowerCase().includes(k))) return false; }
+  return true;
+}
+function itemHTML(q){
+  const st = fav.includes(q.id);
+  return '<div class="item" data-id="' + q.id + '">'
+   + '<div class="ik">' + esc(q.ko) + '</div>'
+   + '<div class="iz">' + esc(q.zh) + '</div>'
+   + '<div class="who"><span class="tag m">' + KO[q.member] + '</span>'
+   + q.tags.map(t => '<span class="tag">' + t + '</span>').join('') + '</div>'
+   + '<div class="ih">'
+   + '<div class="zh" style="margin-top:10px">' + esc(q.zh) + '</div>'
+   + (q.ctx ? '<div class="detail show" style="margin-top:10px"><div class="lbl">语境</div>' + esc(q.ctx) + '</div>' : '')
+   + (q.note ? '<div class="detail show" style="margin-top:6px"><div class="lbl">补一句</div>' + esc(q.note) + '</div>' : '')
+   + '<div class="mini"><button data-a="fav" class="' + (st ? 'on' : '') + '">' + (st ? '★ 已收藏' : '☆ 收藏') + '</button>'
+   + '<button data-a="ck">复制韩文</button><button data-a="cz">复制中文</button><button data-a="cb">复制 韩+中</button>'
+   + '<button data-a="src">原页</button></div></div></div>';
+}
+function renderList(el, arr){
+  document.getElementById(el).innerHTML = arr.length
+    ? arr.map(itemHTML).join('')
+    : '<div class="count">这里还空着。</div>';
+}
+function renderAll(){
+  const arr = Q.filter(match).sort((a,b) => order[a.member] - order[b.member]);
+  document.getElementById('cnt').textContent = arr.length + ' / ' + Q.length + ' 句';
+  renderList('list', arr);
+}
+function renderFav(){ renderList('flist', Q.filter(q => fav.includes(q.id)).sort((a,b) => order[a.member] - order[b.member])); }
+
+function buildChips(){
+  document.getElementById('fm').innerHTML = '<button class="on" data-m="">全部成员</button>'
+    + M.map(m => '<button data-m="' + m.en + '">' + m.ko + ' ' + m.cn + '</button>').join('');
+  document.getElementById('ft').innerHTML = '<button class="on" data-t="">全部场景</button>'
+    + TAGS.map(t => '<button data-t="' + t + '">' + t + '</button>').join('');
+  document.getElementById('links').innerHTML = M.map(m =>
+    '<button onclick="window.open(\'' + urlOf(m.en) + '\',\'_blank\')">' + m.ko + ' ' + m.cn + '</button>').join('');
+}
+function urlOf(en){ const u = {'SHINYU':1001,'DOHOON':998,'JIHOON':1004,'HANJIN':1006,'YOUNGJAE':1008,'KYUNGMIN':1010};
+  return 'https://magazine.weverse.io/article/view/' + u[en] + '?lang=ko'; }
+
+function copy(t, msg){
+  const done = () => toast(msg);
+  if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(t).then(done, () => fb(t, done));
+  else fb(t, done);
+}
+function fb(t, cb){ const a = document.createElement('textarea'); a.value = t; a.style.position = 'fixed';
+  a.style.opacity = '0'; document.body.appendChild(a); a.select();
+  try { document.execCommand('copy'); cb(); } catch(e) { toast('复制失败，长按选中文字手动复制'); }
+  document.body.removeChild(a); }
+
+function switchView(v){
+  view = v;
+  ['today','all','fav','about'].forEach(x => document.getElementById('v-' + x).hidden = (x !== v));
+  document.querySelectorAll('nav button').forEach(b => b.classList.toggle('on', b.dataset.v === v));
+  if (v === 'all') renderAll();
+  if (v === 'fav') renderFav();
+  if (history.replaceState) history.replaceState(null, '', '#' + v);
+}
+
+document.querySelector('nav').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (b) switchView(b.dataset.v);
+});
+document.getElementById('next').addEventListener('click', () => renderCard(pickRandom()));
+document.getElementById('card').addEventListener('click', e => {
+  const a = e.target.closest('[data-a]'); if (!a || !cur) return;
+  const k = a.dataset.a;
+  if (k === 'fav') { fav.includes(cur.id) ? fav = fav.filter(x => x !== cur.id) : fav.push(cur.id);
+    save(); renderCard(cur); toast(fav.includes(cur.id) ? '已收藏' : '取消收藏'); }
+  if (k === 'ck') copy(cur.ko, '韩文已复制');
+  if (k === 'cz') copy(cur.zh, '中文已复制');
+  if (k === 'cb') copy(cur.ko + '\n' + cur.zh, '韩文＋中文已复制');
+  if (k === 'more') { const d = document.querySelector('#card .detail'); const s = d.classList.toggle('show');
+    a.textContent = s ? '语境与出处 －' : '语境与出处 ＋'; }
+});
+document.getElementById('list').addEventListener('click', onList);
+document.getElementById('flist').addEventListener('click', onList);
+function onList(e){
+  const btn = e.target.closest('[data-a]'); const item = e.target.closest('.item');
+  if (!btn || !item) { if (item) item.classList.toggle('open'); return; }
+  e.stopPropagation();
+  const q = Q.find(x => x.id === +item.dataset.id); const k = btn.dataset.a;
+  if (k === 'fav') { fav.includes(q.id) ? fav = fav.filter(x => x !== q.id) : fav.push(q.id);
+    save(); view === 'fav' ? renderFav() : renderAll(); toast(fav.includes(q.id) ? '已收藏' : '取消收藏'); }
+  if (k === 'ck') copy(q.ko, '韩文已复制');
+  if (k === 'cz') copy(q.zh, '中文已复制');
+  if (k === 'cb') copy(q.ko + '\n' + q.zh, '韩文＋中文已复制');
+  if (k === 'src') window.open(q.url, '_blank');
+}
+document.getElementById('fm').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return; selM = b.dataset.m;
+  document.querySelectorAll('#fm button').forEach(x => x.classList.toggle('on', x === b)); renderAll();
+});
+document.getElementById('ft').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return; selT = b.dataset.t;
+  document.querySelectorAll('#ft button').forEach(x => x.classList.toggle('on', x === b)); renderAll();
+});
+document.getElementById('q').addEventListener('input', e => { kw = e.target.value.trim(); renderAll(); });
+document.addEventListener('keydown', e => {
+  if (view !== 'today') return;
+  if (e.key === 'ArrowRight') renderCard(pickRandom());
+  if (e.key.toLowerCase() === 's') { const b = document.querySelector('#card [data-a=fav]'); if (b) b.click(); }
+});
+
+buildChips();
+renderCard(pickToday());
+const h = (location.hash || '').replace('#','');
+if (['today','all','fav','about'].includes(h)) switchView(h);
+if (/^q\d+$/.test(h)) { const q = Q.find(x => x.id === +h.slice(1)); if (q) { switchView('today'); renderCard(q); } }
+window.addEventListener('hashchange', () => { const v = (location.hash||'').replace('#','');
+  if (['today','all','fav','about'].includes(v)) switchView(v); });
+</script>
+</body>
+</html>
