@@ -10,10 +10,18 @@
   --ink:#22333c; --ink-2:#5d7484; --line:#dfeaf0; --bg:#f6fbfc; --card:#ffffff;
   --chip:#eef7f3; --star:#e0a23c;
 }
+:root{
+  --kore:"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR";
+  --kai:"Kaiti SC","STKaiti","KaiTi","DFKai-SB","BiauKai";
+}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{margin:0;background:var(--bg);color:var(--ink);
-  font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","PingFang SC","Microsoft YaHei",sans-serif;
+  font-family:var(--kore),var(--kai),-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
   padding-bottom:40px}
+/* 中文一律楷体；韩文行保持原来的黑体 */
+.ko,.ik{font-family:var(--kore),sans-serif}
+.zh,.iz,.lbl,.tag,.count,.toggle,.mini button,.main,nav button,.brand,.s,.toast{
+  font-family:var(--kai),var(--kore),sans-serif}
 .wrap{max-width:680px;margin:0 auto;padding:0 16px}
 header{position:sticky;top:0;z-index:20;background:linear-gradient(180deg,var(--bg) 70%,rgba(246,251,252,0));
   padding:14px 0 8px}
