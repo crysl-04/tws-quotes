@@ -12,16 +12,20 @@
 }
 :root{
   --kore:"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR";
-  --kai:"Kaiti SC","STKaiti","KaiTi","DFKai-SB","BiauKai";
+  --kai:"Kaiti SC","STKaiti","KaiTi","SimKai","楷体","华文楷体","DFKai-SB","BiauKai";
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+/* body 本身楷体优先：这样没有 class 的裸文字（语境正文、小标题、出处说明）也是楷体 */
 body{margin:0;background:var(--bg);color:var(--ink);
-  font-family:var(--kore),var(--kai),-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  font-family:var(--kai),var(--kore),-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
   padding-bottom:40px}
-/* 中文一律楷体；韩文行保持原来的黑体 */
-.ko,.ik{font-family:var(--kore),sans-serif}
-.zh,.iz,.lbl,.tag,.count,.toggle,.mini button,.main,nav button,.brand,.s,.toast{
-  font-family:var(--kai),var(--kore),sans-serif}
+/* 按钮/输入框默认不吃 inherit，必须显式继承，否则复制那一排还是黑体 */
+button,input,textarea,select{font-family:inherit}
+/* 只有韩文行、韩文人名、韩文出处标题保持原来的黑体 */
+.ko,.ik,.kr{font-family:var(--kore),var(--kai),-apple-system,sans-serif}
+.zh,.iz,.lbl,.tx,.tag,.count,.toggle,.ghost,.main,.detail,.who,.ih,.mini,.mini button,.chips,.chips button,
+nav button,.brand,.s,.toast,a{
+  font-family:var(--kai),var(--kore),-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}
 .wrap{max-width:680px;margin:0 auto;padding:0 16px}
 header{position:sticky;top:0;z-index:20;background:linear-gradient(180deg,var(--bg) 70%,rgba(246,251,252,0));
   padding:14px 0 8px}
@@ -147,17 +151,17 @@ function cardHTML(q){
   const st = fav.includes(q.id);
   return '<div class="ko">' + esc(q.ko) + '</div>'
    + '<div class="zh">' + esc(q.zh) + '</div>'
-   + '<div class="who"><span class="tag m">' + KO[q.member] + (q.member === 'ALL' ? '（未指名）' : ' · ' + q.member) + '</span>'
+   + '<div class="who"><span class="tag m"><span class="kr">' + KO[q.member] + '</span>' + (q.member === 'ALL' ? '（未指名）' : ' · ' + q.member) + '</span>'
    + q.tags.map(t => '<span class="tag">' + t + '</span>').join('') + '</div>'
    + '<div class="mini"><button data-a="fav" class="' + (st ? 'on' : '') + '">' + (st ? '★ 已收藏' : '☆ 收藏') + '</button>'
    + '<button data-a="ck">复制韩文</button><button data-a="cz">复制中文</button><button data-a="cb">复制 韩+中</button></div>'
    + '<div class="toggle" data-a="more">语境与出处 ＋</div>'
    + '<div class="detail">'
-   + '<div class="lbl">这句话的小标题</div>' + esc(q.label)
-   + (q.ctx ? '<div class="lbl">语境</div>' + esc(q.ctx) : '')
-   + (q.note ? '<div class="lbl">补一句</div>' + esc(q.note) : '')
-   + '<div class="lbl">出处</div><a href="' + q.url + '" target="_blank" rel="noopener">' + esc(q.src_label) + '</a>'
-   + (q.src_note ? '<div style="margin-top:6px">' + esc(q.src_note) + '</div>' : '')
+   + '<div class="lbl">这句话的小标题</div><div class="tx">' + esc(q.label) + '</div>'
+   + (q.ctx ? '<div class="lbl">语境</div><div class="tx">' + esc(q.ctx) + '</div>' : '')
+   + (q.note ? '<div class="lbl">补一句</div><div class="tx">' + esc(q.note) + '</div>' : '')
+   + '<div class="lbl">出处</div><div class="tx kr"><a class="kr" href="' + q.url + '" target="_blank" rel="noopener">' + esc(q.src_label) + '</a></div>'
+   + (q.src_note ? '<div class="tx kr" style="margin-top:6px">' + esc(q.src_note) + '</div>' : '')
    + '</div>';
 }
 
@@ -175,11 +179,11 @@ function itemHTML(q){
   return '<div class="item" data-id="' + q.id + '">'
    + '<div class="ik">' + esc(q.ko) + '</div>'
    + '<div class="iz">' + esc(q.zh) + '</div>'
-   + '<div class="who"><span class="tag m">' + KO[q.member] + '</span>'
+   + '<div class="who"><span class="tag m"><span class="kr">' + KO[q.member] + '</span></span>'
    + q.tags.map(t => '<span class="tag">' + t + '</span>').join('') + '</div>'
    + '<div class="ih">'
-   + (q.ctx ? '<div class="detail show" style="margin-top:10px"><div class="lbl">语境</div>' + esc(q.ctx) + '</div>' : '')
-   + (q.note ? '<div class="detail show" style="margin-top:6px"><div class="lbl">补一句</div>' + esc(q.note) + '</div>' : '')
+   + (q.ctx ? '<div class="detail show" style="margin-top:10px"><div class="lbl">语境</div><div class="tx">' + esc(q.ctx) + '</div></div>' : '')
+   + (q.note ? '<div class="detail show" style="margin-top:6px"><div class="lbl">补一句</div><div class="tx">' + esc(q.note) + '</div></div>' : '')
    + '<div class="mini"><button data-a="fav" class="' + (st ? 'on' : '') + '">' + (st ? '★ 已收藏' : '☆ 收藏') + '</button>'
    + '<button data-a="ck">复制韩文</button><button data-a="cz">复制中文</button><button data-a="cb">复制 韩+中</button>'
    + '<button data-a="src">原页</button></div></div></div>';
@@ -198,11 +202,11 @@ function renderFav(){ renderList('flist', Q.filter(q => fav.includes(q.id)).sort
 
 function buildChips(){
   document.getElementById('fm').innerHTML = '<button class="on" data-m="">全部成员</button>'
-    + M.map(m => '<button data-m="' + m.en + '">' + m.ko + ' ' + m.cn + '</button>').join('');
+    + M.map(m => '<button data-m="' + m.en + '"><span class="kr">' + m.ko + '</span> ' + m.cn + '</button>').join('');
   document.getElementById('ft').innerHTML = '<button class="on" data-t="">全部场景</button>'
     + TAGS.map(t => '<button data-t="' + t + '">' + t + '</button>').join('');
   document.getElementById('links').innerHTML = M.map(m =>
-    '<button onclick="window.open(\'' + urlOf(m.en) + '\',\'_blank\')">' + m.ko + ' ' + m.cn + '</button>').join('');
+    '<button onclick="window.open(\'' + urlOf(m.en) + '\',\'_blank\')"><span class="kr">' + m.ko + '</span> ' + m.cn + '</button>').join('');
 }
 function urlOf(en){ const u = {'SHINYU':1001,'DOHOON':998,'JIHOON':1004,'HANJIN':1006,'YOUNGJAE':1008,'KYUNGMIN':1010};
   return u[en] ? 'https://magazine.weverse.io/article/view/' + u[en] + '?lang=ko' : ''; }
